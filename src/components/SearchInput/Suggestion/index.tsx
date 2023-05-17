@@ -2,29 +2,25 @@ import { useEffect, useState } from 'react';
 import splitWord from '../../../utils/splitWord';
 
 interface SuggestionProps {
-  languages: string[];
+  items: string[];
   emphasisWord: string;
   onSelect: (value: string) => void;
 }
 
-const Suggestion = ({ languages, emphasisWord, onSelect }: SuggestionProps) => {
+const Suggestion = ({ items, emphasisWord, onSelect }: SuggestionProps) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   useEffect(() => {
     const onKeyup = (e: KeyboardEvent) => {
       switch (e.key) {
         case 'ArrowUp':
-          setSelectedIndex((prev) =>
-            prev > 0 ? prev - 1 : languages.length - 1
-          );
+          setSelectedIndex((prev) => (prev > 0 ? prev - 1 : items.length - 1));
           break;
         case 'ArrowDown':
-          setSelectedIndex((prev) =>
-            prev < languages.length - 1 ? prev + 1 : 0
-          );
+          setSelectedIndex((prev) => (prev < items.length - 1 ? prev + 1 : 0));
           break;
         case 'Enter':
-          onSelect(languages[selectedIndex]);
+          onSelect(items[selectedIndex]);
           break;
         default:
           break;
@@ -34,13 +30,13 @@ const Suggestion = ({ languages, emphasisWord, onSelect }: SuggestionProps) => {
     return () => {
       document.removeEventListener('keyup', onKeyup);
     };
-  }, [languages, onSelect, selectedIndex]);
+  }, [items, onSelect, selectedIndex]);
 
-  if (languages.length === 0) return null;
+  if (items.length === 0) return null;
   return (
     <div className="Suggestion">
       <ul>
-        {languages.map((language, i) => (
+        {items.map((language, i) => (
           <li
             key={language}
             className={i === selectedIndex ? 'Suggestion__item--selected' : ''}
