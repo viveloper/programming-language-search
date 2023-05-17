@@ -1,20 +1,32 @@
 import { useState } from 'react';
 import SearchInput from './components/SearchInput';
 import SelectedLanguage from './components/SelectedLanguage';
+import {
+  getSelectedLanguagesFromLocalStorage,
+  setSelectedLanguagesToLocalStorage,
+} from './utils/storage';
 
 function App() {
-  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
+  const [selectedLanguages, setSelectedLanguages] = useState<string[]>(
+    getSelectedLanguagesFromLocalStorage()
+  );
 
   const handleSelect = (language: string) => {
     alert(language);
     setSelectedLanguages((prev) => {
-      const newLanguages = [
+      const filteredLanguages = [
         ...prev.filter((item) => item !== language),
         language,
       ];
-      return newLanguages.length > 5
-        ? newLanguages.slice(newLanguages.length - 5, newLanguages.length)
-        : newLanguages;
+      const newLanguages =
+        filteredLanguages.length > 5
+          ? filteredLanguages.slice(
+              filteredLanguages.length - 5,
+              filteredLanguages.length
+            )
+          : filteredLanguages;
+      setSelectedLanguagesToLocalStorage(newLanguages);
+      return newLanguages;
     });
   };
 
