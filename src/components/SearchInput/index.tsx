@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Suggestion from './Suggestion';
 
 const BASE_URL: string = import.meta.env.VITE_API_SERVER_BASE_URL;
@@ -11,6 +11,8 @@ const SearchInput = ({ onSelect }: SearchInputProps) => {
   const [value, setValue] = useState('');
   const [languages, setLanguages] = useState<string[]>([]);
 
+  const cache = useRef<Record<string, string[]>>({});
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
     search(e.target.value);
@@ -22,8 +24,14 @@ const SearchInput = ({ onSelect }: SearchInputProps) => {
       return;
     }
 
+    if (cache.current[language]) {
+      setLanguages(cache.current[language]);
+      return;
+    }
+
     const response = await fetch(`${BASE_URL}/languages?keyword=${language}`);
     const data: string[] = await response.json();
+    cache.current[language] = data;
     setLanguages(data);
   };
 
