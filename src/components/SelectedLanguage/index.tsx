@@ -1,15 +1,14 @@
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface SelectedLanguageProps {}
+interface SelectedLanguageProps {
+  languages: string[];
+}
 
-const SelectedLanguage = (props: SelectedLanguageProps) => {
+const SelectedLanguage = ({ languages }: SelectedLanguageProps) => {
   return (
     <div className="SelectedLanguage">
       <ul>
-        <li>JavaScript</li>
-        <li>Python</li>
-        <li>Elixir</li>
-        <li>Java</li>
-        <li>PHP</li>
+        {languages.map((language) => (
+          <li key={language}>{language}</li>
+        ))}
       </ul>
     </div>
   );
