@@ -34,6 +34,7 @@ const SearchInput = ({ onSelect }: SearchInputProps) => {
           className="SearchInput__input"
           type="text"
           placeholder="프로그램 언어를 입력하세요."
+          autoFocus
           value={value}
           onChange={handleInputChange}
         />
