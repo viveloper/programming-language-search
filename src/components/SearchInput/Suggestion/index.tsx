@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
+import splitWord from '../../../utils/splitWord';
 
 interface SuggestionProps {
   languages: string[];
+  emphasisWord: string;
   onSelect: (value: string) => void;
 }
 
-const Suggestion = ({ languages, onSelect }: SuggestionProps) => {
+const Suggestion = ({ languages, emphasisWord, onSelect }: SuggestionProps) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   useEffect(() => {
@@ -44,22 +46,13 @@ const Suggestion = ({ languages, onSelect }: SuggestionProps) => {
             className={i === selectedIndex ? 'Suggestion__item--selected' : ''}
             onClick={() => onSelect(language)}
           >
-            {language}
+            {splitWord(language, emphasisWord)[0]}
+            <span className="Suggestion__item--matched">
+              {splitWord(language, emphasisWord)[1]}
+            </span>
+            {splitWord(language, emphasisWord)[2]}
           </li>
         ))}
-
-        {/* <li className="Suggestion__item--selected">
-          Action<span className="Suggestion__item--matched">Script</span>
-        </li>
-        <li>
-          Java<span className="Suggestion__item--matched">Script</span>
-        </li>
-        <li>
-          Type<span className="Suggestion__item--matched">Script</span>
-        </li>
-        <li>
-          Pure<span className="Suggestion__item--matched">Script</span>
-        </li> */}
       </ul>
     </div>
   );

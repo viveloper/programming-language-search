@@ -39,7 +39,11 @@ const SearchInput = ({ onSelect }: SearchInputProps) => {
           onChange={handleInputChange}
         />
       </form>
-      <Suggestion languages={languages} onSelect={onSelect} />
+      <Suggestion
+        languages={languages}
+        emphasisWord={value}
+        onSelect={onSelect}
+      />
     </>
   );
 };
