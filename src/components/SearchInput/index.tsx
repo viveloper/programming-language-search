@@ -1,4 +1,5 @@
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
+import debounce from 'debounce';
 import Suggestion from './Suggestion';
 
 const BASE_URL: string = import.meta.env.VITE_API_SERVER_BASE_URL;
@@ -18,22 +19,28 @@ const SearchInput = ({ onSelect }: SearchInputProps) => {
     search(e.target.value);
   };
 
-  const search = async (language: string) => {
-    if (!language) {
-      setLanguages([]);
-      return;
-    }
+  const search = useMemo(
+    () =>
+      debounce(async (language: string) => {
+        if (!language) {
+          setLanguages([]);
+          return;
+        }
 
-    if (cache.current[language]) {
-      setLanguages(cache.current[language]);
-      return;
-    }
+        if (cache.current[language]) {
+          setLanguages(cache.current[language]);
+          return;
+        }
 
-    const response = await fetch(`${BASE_URL}/languages?keyword=${language}`);
-    const data: string[] = await response.json();
-    cache.current[language] = data;
-    setLanguages(data);
-  };
+        const response = await fetch(
+          `${BASE_URL}/languages?keyword=${language}`
+        );
+        const data: string[] = await response.json();
+        cache.current[language] = data;
+        setLanguages(data);
+      }, 200),
+    []
+  );
 
   return (
     <>
