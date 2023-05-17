@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Suggestion from './Suggestion';
+import { Suggestion } from './Suggestion';
 
 interface SearchInputProps {
   suggestionItems: string[];
@@ -7,7 +7,7 @@ interface SearchInputProps {
   onSelect: (value: string) => void;
 }
 
-const SearchInput = ({
+export const SearchInput = ({
   suggestionItems,
   onChange,
   onSelect,
@@ -39,5 +39,3 @@ const SearchInput = ({
     </>
   );
 };
-
-export default SearchInput;

@@ -7,7 +7,11 @@ interface SuggestionProps {
   onSelect: (value: string) => void;
 }
 
-const Suggestion = ({ items, emphasisWord, onSelect }: SuggestionProps) => {
+export const Suggestion = ({
+  items,
+  emphasisWord,
+  onSelect,
+}: SuggestionProps) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   useEffect(() => {
@@ -53,5 +57,3 @@ const Suggestion = ({ items, emphasisWord, onSelect }: SuggestionProps) => {
     </div>
   );
 };
-
-export default Suggestion;

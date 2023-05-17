@@ -1,7 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 import debounce from 'debounce';
-import SearchInput from './components/SearchInput';
-import SelectedLanguage from './components/SelectedLanguage';
+import { SearchInput, SelectedLanguage } from './components';
 import {
   getSelectedLanguagesFromLocalStorage,
   setSelectedLanguagesToLocalStorage,
