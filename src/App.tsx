@@ -5,8 +5,7 @@ import {
   getSelectedLanguagesFromLocalStorage,
   setSelectedLanguagesToLocalStorage,
 } from './utils/storage';
-
-const BASE_URL: string = import.meta.env.VITE_API_SERVER_BASE_URL;
+import { getLanguages } from './api/language';
 
 function App() {
   const [suggestionLanguages, setSuggestionLanguages] = useState<string[]>([]);
@@ -37,23 +36,23 @@ function App() {
 
   const search = useMemo(
     () =>
-      debounce(async (language: string) => {
-        if (!language) {
+      debounce(async (keyword: string) => {
+        if (!keyword) {
           setSuggestionLanguages([]);
           return;
         }
-
-        if (cache.current[language]) {
-          setSuggestionLanguages(cache.current[language]);
+        if (cache.current[keyword]) {
+          setSuggestionLanguages(cache.current[keyword]);
           return;
         }
 
-        const response = await fetch(
-          `${BASE_URL}/languages?keyword=${language}`
-        );
-        const data: string[] = await response.json();
-        cache.current[language] = data;
-        setSuggestionLanguages(data);
+        try {
+          const data = await getLanguages(keyword);
+          cache.current[keyword] = data;
+          setSuggestionLanguages(data);
+        } catch (error) {
+          throw new Error('error occurred.');
+        }
       }, 200),
     []
   );
